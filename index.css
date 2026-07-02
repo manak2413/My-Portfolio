@@ -830,7 +830,7 @@ nav ul li a:hover {
     /* Projects */
     .projects-grid {
         grid-template-columns: 1fr;
-        max-width: 400px;
+        max-width: 370px;
     }
 
     .section-title h1 { font-size: 36px; }
