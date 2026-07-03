@@ -7,6 +7,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
 body {
     background: #050816;
     color: white;
@@ -65,6 +69,15 @@ nav ul li a:hover {
 .btn:hover {
     background: #9b5cff;
 }
+
+.hamburger{
+    display: none;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+
 
 
 
@@ -725,9 +738,7 @@ nav ul li a:hover {
 /* Tablet: below 900px */
 @media (max-width: 900px) {
     /* Nav */
-    nav ul { display: none; }
-    .btn { display: none; }
-    .hamburger { display: flex; }
+  
 
     /* Hero */
     .hero {
@@ -860,4 +871,114 @@ nav ul li a:hover {
     .circle { width: 220px; height: 220px; }
     .right img { width: 210px; }
     .buttons { flex-direction: column; align-items: center; }
+}
+
+
+@media (max-width:769px){
+
+    .hamburger{
+        display:block;
+        font-size:30px;
+        cursor:pointer;
+        z-index:1001;
+    }
+
+    .btn{
+        display:none;
+    }
+
+    nav ul{
+        display:none;
+        flex-direction:column;
+        position:absolute;
+        top:80px;
+        left:0;
+        width:100%;
+        background:#0d1324;
+        padding:20px;
+        gap:20px;
+        z-index:1000;
+    }
+
+    nav ul.show{
+        display:flex;
+    }
+}
+
+
+
+/* ===== SCROLL TO TOP BUTTON ===== */
+
+#scrollTopBtn {
+    position: fixed;
+    bottom: 95px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: #9b5cff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    text-decoration: none;
+    box-shadow: 0 0 20px rgba(155, 92, 255, .5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: .4s;
+}
+
+#scrollTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#scrollTopBtn:hover {
+    background: #7c3aed;
+    box-shadow: 0 0 30px #9b5cff;
+    transform: translateY(-5px);
+}
+
+
+/* ===== WHATSAPP BUTTON ===== */
+
+#whatsappBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    background: #25d366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 0 20px rgba(37, 211, 102, .6);
+    z-index: 999;
+    transition: .4s;
+    animation: pulse 2s infinite;
+}
+
+#whatsappBtn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 30px rgba(37, 211, 102, .9);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, .5);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
 }
