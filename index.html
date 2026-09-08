@@ -11,305 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
 
-</head><!-- ============================================================
-     AI CHAT WIDGET SNIPPET
-     Isko apni portfolio website ke HAR page me </body> tag
-     se THEEK PEHLE paste karo (footer ke baad).
-     ============================================================ -->
+</head>
 
-<style>
-    :root {
-        --brand: #9b5cff;
-        --brand-dark: #9b5cff;
-        --bg: #ffffff;
-        --bot-bubble: #f1f4f9;
-        --user-bubble: #9b5cff;
-        --text: #1c2430;
-        --radius: 16px;
-    }
 
-    #chat-toggle {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        /* background: var(--brand); */
-        color: #fff;
-        border: none;
-        font-size: 28px;
-        cursor: pointer;
-        font-family: inherit;
-        box-shadow: 0 6px 20px rgba(31, 111, 235, .4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 99999;
-        transition: transform .2s;
-    }
-
-    #chat-toggle:hover {
-        transform: scale(1.08);
-    }
-
-    #chat-window {
-        position: fixed;
-        bottom: 100px;
-        right: 24px;
-        width: 360px;
-        max-width: 92vw;
-        height: 520px;
-        max-height: 75vh;
-        background: var(--bg);
-        border-radius: var(--radius);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, .18);
-        display: none;
-        flex-direction: column;
-        overflow: hidden;
-        z-index: 99999;
-        font-family: 'Segoe UI', Arial, sans-serif;
-    }
-
-    #chat-window.open {
-        display: flex;
-    }
-
-    #chat-header {
-        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
-        color: #fff;
-        padding: 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    #chat-header .icon {
-        font-size: 24px;
-    }
-
-    #chat-header .title {
-        font-weight: 600;
-        font-size: 15px;
-    }
-
-    #chat-header .sub {
-        font-size: 11px;
-        opacity: .85;
-    }
-
-    #chat-close {
-        margin-left: auto;
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    #chat-messages {
-        flex: 1;
-        padding: 14px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background: #fafbfd;
-    }
-
-    #chat-window .msg {
-        max-width: 80%;
-        padding: 10px 14px;
-        border-radius: 14px;
-        font-size: 14px;
-        line-height: 1.4;
-        white-space: pre-wrap;
-    }
-
-    #chat-window .msg.bot {
-        background: var(--bot-bubble);
-        color: var(--text);
-        align-self: flex-start;
-        border-bottom-left-radius: 4px;
-    }
-
-    #chat-window .msg.user {
-        background: var(--user-bubble);
-        color: #fff;
-        align-self: flex-end;
-        border-bottom-right-radius: 4px;
-    }
-
-    #chat-window .msg.typing {
-        font-style: italic;
-        color: #888;
-    }
-
-    #quick-replies {
-        display: flex;
-        gap: 8px;
-        padding: 10px 14px;
-        flex-wrap: wrap;
-        background: #fff;
-        border-top: 1px solid #eee;
-    }
-
-    .qr-btn {
-        background: #eef2fb;
-        color: var(--brand-dark);
-        border: none;
-        border-radius: 20px;
-        padding: 6px 12px;
-        font-size: 12.5px;
-        cursor: pointer;
-        white-space: nowrap;
-        font-family: inherit;
-    }
-
-    .qr-btn:hover {
-        background: #dde8fb;
-    }
-
-    #chat-input-area {
-        display: flex;
-        gap: 8px;
-        padding: 12px;
-        border-top: 1px solid #eee;
-        background: #fff;
-    }
-
-    #chat-input {
-        flex: 1;
-        border: 1px solid #ddd;
-        border-radius: 20px;
-        padding: 10px 14px;
-        font-size: 14px;
-        outline: none;
-        font-family: inherit;
-    }
-
-    #chat-input:focus {
-        border-color: var(--brand);
-    }
-
-    #chat-send {
-        background: var(--brand);
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    #chat-send:hover {
-        background: var(--brand-dark);
-    }
-
-    #chat-footer {
-        text-align: center;
-        font-size: 10px;
-        color: #999;
-        padding: 4px 0 8px;
-        background: #fff;
-    }
-</style>
-
-<img id="chat-toggle" src="https://samyakinfotech.com/wp-content/uploads/2026/05/1_9I6EIL5NG20A8se5afVmOg.gif" alt="">
-<div id="chat-window">
-    <div id="chat-header">
-        <span class="icon">🤖</span>
-        <div>
-            <div class="title">Portfolio AI Assistant</div>
-            <div class="sub">Ask in English / Hindi / Hinglish</div>
-        </div>
-        <button id="chat-close">×</button>
-    </div>
-
-    <div id="chat-messages"></div>
-
-    <div id="quick-replies">
-        <button class="qr-btn" data-msg="Aap kaun ho aur kya karte ho?">👋 About</button>
-        <button class="qr-btn" data-msg="Aapke projects ke bare me bataye">💼 Projects</button>
-        <button class="qr-btn" data-msg="Aapki skills kya hai?">🛠️ Skills</button>
-        <button class="qr-btn" data-msg="Aapse contact kaise kare?">📩 Contact</button>
-    </div>
-
-    <div id="chat-input-area">
-        <input id="chat-input" type="text" placeholder="Apna sawal likhiye..." />
-        <button id="chat-send">➤</button>
-    </div>
-    <div id="chat-footer">Powered by Your AI Assistant</div>
-</div>
-
-<script>
-    // ================== CONFIG ==================
-    // Backend live hone ke baad yaha uska URL daalo. Localhost sirf testing ke liye hai.
-    const API_URL = "https://YOUR-BACKEND-URL.onrender.com/api/chat";
-    // ==============================================
-
-    (function () {
-        const toggleBtn = document.getElementById('chat-toggle');
-        const chatWindow = document.getElementById('chat-window');
-        const closeBtn = document.getElementById('chat-close');
-        const messagesEl = document.getElementById('chat-messages');
-        const inputEl = document.getElementById('chat-input');
-        const sendBtn = document.getElementById('chat-send');
-        const quickReplies = document.querySelectorAll('.qr-btn');
-
-        let history = [];
-
-        toggleBtn.onclick = () => {
-            chatWindow.classList.toggle('open');
-            if (chatWindow.classList.contains('open') && messagesEl.children.length === 0) {
-                addMessage('bot', "Namaste! 👋 Mujhse mere projects, skills, ya kuch bhi normal sawal poochiye.");
-            }
-        };
-        closeBtn.onclick = () => chatWindow.classList.remove('open');
-
-        quickReplies.forEach(btn => { btn.onclick = () => sendMessage(btn.dataset.msg); });
-
-        sendBtn.onclick = () => sendMessage(inputEl.value);
-        inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(inputEl.value); });
-
-        function addMessage(role, text) {
-            const div = document.createElement('div');
-            div.className = 'msg ' + role;
-            div.textContent = text;
-            messagesEl.appendChild(div);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-            return div;
-        }
-
-        async function sendMessage(text) {
-            text = (text || '').trim();
-            if (!text) return;
-            inputEl.value = '';
-            addMessage('user', text);
-            history.push({ role: 'user', content: text });
-
-            const typingEl = addMessage('bot typing', 'Typing...');
-
-            try {
-                const res = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ messages: history })
-                });
-                const data = await res.json();
-                typingEl.remove();
-                const reply = data.reply || "Sorry, kuch error aa gaya.";
-                addMessage('bot', reply);
-                history.push({ role: 'assistant', content: reply });
-            } catch (err) {
-                typingEl.remove();
-                addMessage('bot', "⚠️ Server se connect nahi ho paya.");
-                console.error(err);
-            }
-        }
-    })();
-</script>
 
 <body>
 
@@ -396,7 +100,7 @@
             <div class="skill-box">
                 <i class="fa-solid fa-code"></i>
                 <h2>Frontend</h2>
-                <p>HTML, CSS, JavaScript, React</p>
+                <p>HTML, CSS, JavaScript, React, Python, MongoDB, Node.js</p>
             </div>
 
             <div class="skill-box">
@@ -501,9 +205,8 @@
             <div class="project-card">
                 <div class="project-image"> <img class="project-image" src="./image/eye.png" alt=""></div>
                 <div class="project-content">
-                    <h3 class="project-title">Project 1</h3>
-                    <p class="project-description">Short description of project 1 goes here. Explain what it does and
-                        the tech used.</p>
+                    <h3 class="project-title">Project </h3>
+                    <p class="project-description">The Eyes Are Watching You — Interactive horror website where glowing eyes follow the mouse cursor using HTML, CSS & JavaScript.</p>
                     <div class="project-links">
                         <a href="./eyes.html" class="link-live">Live</a>
                         <a href="#" class="link-code">Code</a>
@@ -748,6 +451,104 @@
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
     </script>
+
+
+
+
+<img id="chat-toggle" src="https://samyakinfotech.com/wp-content/uploads/2026/05/1_9I6EIL5NG20A8se5afVmOg.gif" alt="">
+<div id="chat-window">
+    <div id="chat-header">
+        <span class="icon">🤖</span>
+        <div>
+            <div class="title">Portfolio AI Assistant</div>
+            <div class="sub">Ask in English / Hindi / Hinglish</div>
+        </div>
+        <button id="chat-close">×</button>
+    </div>
+
+    <div id="chat-messages"></div>
+
+    <div id="quick-replies">
+        <button class="qr-btn" data-msg="Aap kaun ho aur kya karte ho?">👋 About</button>
+        <button class="qr-btn" data-msg="Aapke projects ke bare me bataye">💼 Projects</button>
+        <button class="qr-btn" data-msg="Aapki skills kya hai?">🛠️ Skills</button>
+        <button class="qr-btn" data-msg="Aapse contact kaise kare?">📩 Contact</button>
+    </div>
+
+    <div id="chat-input-area">
+        <input id="chat-input" type="text" placeholder="Apna sawal likhiye..." />
+        <button id="chat-send">➤</button>
+    </div>
+    <div id="chat-footer">Powered by Your AI Assistant</div>
+</div>
+
+<script>
+    // ================== CONFIG ==================
+    // Backend live hone ke baad yaha uska URL daalo. Localhost sirf testing ke liye hai.
+    const API_URL = "https://YOUR-BACKEND-URL.onrender.com/api/chat";
+    // ==============================================
+
+    (function () {
+        const toggleBtn = document.getElementById('chat-toggle');
+        const chatWindow = document.getElementById('chat-window');
+        const closeBtn = document.getElementById('chat-close');
+        const messagesEl = document.getElementById('chat-messages');
+        const inputEl = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('chat-send');
+        const quickReplies = document.querySelectorAll('.qr-btn');
+
+        let history = [];
+
+        toggleBtn.onclick = () => {
+            chatWindow.classList.toggle('open');
+            if (chatWindow.classList.contains('open') && messagesEl.children.length === 0) {
+                addMessage('bot', "Namaste! 👋 Mujhse mere projects, skills, ya kuch bhi normal sawal poochiye.");
+            }
+        };
+        closeBtn.onclick = () => chatWindow.classList.remove('open');
+
+        quickReplies.forEach(btn => { btn.onclick = () => sendMessage(btn.dataset.msg); });
+
+        sendBtn.onclick = () => sendMessage(inputEl.value);
+        inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(inputEl.value); });
+
+        function addMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = 'msg ' + role;
+            div.textContent = text;
+            messagesEl.appendChild(div);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+            return div;
+        }
+
+        async function sendMessage(text) {
+            text = (text || '').trim();
+            if (!text) return;
+            inputEl.value = '';
+            addMessage('user', text);
+            history.push({ role: 'user', content: text });
+
+            const typingEl = addMessage('bot typing', 'Typing...');
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages: history })
+                });
+                const data = await res.json();
+                typingEl.remove();
+                const reply = data.reply || "Sorry, kuch error aa gaya.";
+                addMessage('bot', reply);
+                history.push({ role: 'assistant', content: reply });
+            } catch (err) {
+                typingEl.remove();
+                addMessage('bot', "⚠️ Server se connect nahi ho paya.");
+                console.error(err);
+            }
+        }
+    })();
+</script>
 
 
 
