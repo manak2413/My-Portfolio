@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +22,10 @@
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
-            background-image:url("./background.png");
+            background-image: url("./background.png");
+
+            /* Mobile */
+            touch-action: none;
         }
 
         .container {
@@ -101,10 +105,10 @@
 
 <body>
 
-    
     <div class="fog"></div>
 
     <div class="container">
+
         <div class="eye">
             <div class="pupil"></div>
         </div>
@@ -112,6 +116,7 @@
         <div class="eye">
             <div class="pupil"></div>
         </div>
+
     </div>
 
     <div class="text" id="msg">
@@ -123,7 +128,12 @@
 
         const pupils = document.querySelectorAll(".pupil");
 
-        document.addEventListener("mousemove", (e) => {
+
+     
+        // 👁️ EYES MOVEMENT FUNCTION
+   
+
+        function moveEyes(x, y) {
 
             pupils.forEach(pupil => {
 
@@ -134,24 +144,80 @@
                 const eyeX = rect.left + rect.width / 2;
                 const eyeY = rect.top + rect.height / 2;
 
+
                 const angle = Math.atan2(
-                    e.clientY - eyeY,
-                    e.clientX - eyeX
+                    y - eyeY,
+                    x - eyeX
                 );
+
 
                 const move = 20;
 
-                const x = Math.cos(angle) * move;
-                const y = Math.sin(angle) * move;
+
+                const pupilX = Math.cos(angle) * move;
+                const pupilY = Math.sin(angle) * move;
+
 
                 pupil.style.transform =
-                    `translate(${x}px, ${y}px)`;
+                    `translate(${pupilX}px, ${pupilY}px)`;
+
             });
+
+        }
+
+
+        // 💻 LAPTOP / DESKTOP MOUSE
+        
+
+        document.addEventListener("mousemove", (e) => {
+
+            moveEyes(
+                e.clientX,
+                e.clientY
+            );
 
         });
 
+
+      
+        // 📱 MOBILE FINGER TOUCH
+       
+
+        document.addEventListener("touchstart", (e) => {
+
+            const touch = e.touches[0];
+
+            moveEyes(
+                touch.clientX,
+                touch.clientY
+            );
+
+        }, { passive: true });
+
+
+       
+        // 📱 MOBILE FINGER MOVE
+
+        document.addEventListener("touchmove", (e) => {
+
+            const touch = e.touches[0];
+
+            moveEyes(
+                touch.clientX,
+                touch.clientY
+            );
+
+        }, { passive: true });
+
+
+      
+        // 👁️ MESSAGE SHOW
+       
+
         setTimeout(() => {
+
             document.getElementById("msg").style.opacity = "1";
+
         }, 1000);
 
     </script>
@@ -159,3 +225,4 @@
 </body>
 
 </html>
+

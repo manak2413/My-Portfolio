@@ -31,6 +31,8 @@ nav {
     align-items: center;
     padding: 25px 0;
     position: relative;
+    /* position: fixed; */
+    border-bottom: 1px solid rgba(155, 92, 255, 0.4);
 }
 
 .logo {
@@ -984,15 +986,6 @@ nav ul li a:hover {
 }
 
 
-
-
-<!-- ============================================================
-     AI CHAT WIDGET SNIPPET
-     Isko apni portfolio website ke HAR page me </body> tag
-     se THEEK PEHLE paste karo (footer ke baad).
-     ============================================================ -->
-
-<style>
     :root {
         --brand: #9b5cff;
         --brand-dark: #9b5cff;
@@ -1189,4 +1182,3 @@ nav ul li a:hover {
         padding: 4px 0 8px;
         background: #fff;
     }
-</style>
